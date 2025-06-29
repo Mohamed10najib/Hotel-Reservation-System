@@ -1,0 +1,22 @@
+1. Suppose we put all the functions inside the same service. Is this the recommended approach? Please explain.
+In my opinion, putting all the functions inside one service class might work for a very small project or technical test, but it's not a good idea for a real application.
+
+It breaks the Single Responsibility Principle, which says that each class should only handle one specific task. If one class handles users, rooms, bookings, printing, and validation all together, it becomes very hard to manage, test, and update later.
+
+A better and more professional approach would be to separate the responsibilities. For example, we could have:
+
+a UserService for handling users,
+
+a RoomService for managing rooms,
+
+and a BookingService for the booking logic.
+
+This makes the code cleaner, easier to understand, and much more scalable in the future.
+
+ 2. In this design, we chose to have a function setRoom(..) that should not impact the previous bookings. What is another way? What is your recommendation? Please explain and justify.
+The goal here is to make sure that when a booking is made, it keeps the room details exactly as they were at the time of the booking — even if the room is changed later (for example, the price is updated).
+
+There are a few ways to do this. One way is to make rooms immutable or versioned, so every time we change a room, we create a new version of it instead of modifying the existing one.
+
+But I personally think a simpler and more effective solution is to just store a snapshot of the room data (like its type and price) inside the booking when it's created. That way, any future changes to the room won’t affect existing bookings.
+This approach keeps the data consistent and avoids complex logic, especially for a project like this.
